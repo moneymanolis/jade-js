@@ -71,6 +71,11 @@ footer {
     width: 100%;
 }
 
+.logo-img-swan {
+    max-width: 150px;
+    width: 80%;
+}
+
 .green-btn {
     height: 50px;
     /* max-width: 204px; */

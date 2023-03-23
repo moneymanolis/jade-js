@@ -18,6 +18,9 @@
       <a class="logo" href="/">
         <img src="images/logo.svg" class="logo-img" />
       </a>
+      <a class="logo" href="/">
+        <img src="images/swan.svg" style="width: 60px"; />
+      </a>
     </header>
     <main>
       <div class="container">
@@ -30,7 +33,7 @@
           <img id="usb-cable-img" src="images/usb-cable.svg" alt="icon" />
         </div>
         <h1 class="title" id="title">
-          Update your Jade’s firmware for better security and compatibility
+          POC: Get public key info from your Jade and upgrade it
         </h1>
         <p class="subtitle" id="subtitle">Simple process that will require you connect your Jade via USB</p>
         <div id="spinner"></div>
@@ -67,67 +70,6 @@
         <button class="hidden g-btn green-btn" style="margin-bottom: 20px;" id="firmware_selected" type="button" onclick="on_firmware_selected()">Confirm Version</button>
       </div>
     </main>
-    <footer>
-      <div class="section">
-        <div class="block">
-          <span id="block-tag">Favorite</span>
-          <img src="images/green.svg" alt="icon"/>
-          <div class="block_desc">
-            <h4>Blockstream Green</h4>
-            <p>A multi-platform, feature-rich Bitcoin and Liquid wallet.</p>
-          </div>
-          <a class="service-btn blcks-serv" href="https://blockstream.com/green/">Explore Green</a>
-        </div>
-        <div class="block">
-          <img src="images/qr-icon.svg" alt="icon"/>
-          <div class="block_desc">
-            <h4>Get Started with QR Scan</h4>
-            <p>Learn more about how you can sign transactions using QR codes.</p>
-          </div>
-          <a class="service-btn blcks-serv" href="https://help.blockstream.com/hc/en-us/articles/11959440390041">QR 101 Start Guide</a>
-        </div>
-      </div>
-
-      <div class="section hidden wallets">
-        <div class="block">
-          <img src="images/electrum.svg" alt="icon"/>
-          <div class="block_desc">
-            <h4>Electrum Wallet</h4>
-            <p>Electrum was created by Thomas Voegtlin in November 2011.</p>
-          </div>
-          <a class="service-btn" href="https://electrum.org/#home">Explore Electrum</a>
-        </div>
-        <div class="block">
-          <img src="images/sparrow.svg" alt="icon"/>
-          <div class="block_desc">
-            <h4>Sparrow Bitcoin Wallet</h4>
-            <p>Sparrow is a Bitcoin wallet for those who value financial self sovereignty.</p>
-          </div>
-          <a class="service-btn" href="https://sparrowwallet.com/">Explore Sparrow</a>
-        </div>
-      </div>
-
-      <div class="section hidden wallets">
-        <div class="block">
-          <img src="images/specter.svg" alt="icon"/>
-          <div class="block_desc">
-            <h4>Specter Solutions</h4>
-            <p>A multi-platform, feature-rich Bitcoin and Liquid wallet.</p>
-          </div>
-          <a class="service-btn" href="https://specter.solutions/">Explore Specter</a>
-        </div>
-        <div class="block">
-          <img src="images/qr-icon.svg" alt="icon" style="visibility: hidden;" />
-          <div class="block_desc">
-            <h4>And other platforms</h4>
-            <p>A multi-platform, feature-rich Bitcoin and Liquid wallet.</p>
-          </div>
-          <a class="service-btn" href="https://help.blockstream.com/hc/en-us/articles/9601453403801-Which-platforms-support-Blockstream-Jade-">Explore All Platforms</a>
-        </div>
-      </div>
-
-
-    </footer>
     <script src="js/jade.js"></script>
     <script src="js/ota.js"></script>
   </body>
