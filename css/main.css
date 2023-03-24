@@ -139,7 +139,8 @@ footer {
     font-size: 20px;
     font-weight: 400;
     line-height: 24px;
-    margin-bottom: 30px;
+    margin-top: 20px;
+    margin-bottom: 10px;
     text-align: center;
 }
 
@@ -393,7 +394,7 @@ input[type="radio"]:checked + label {
     animation: plugIn 0.7s infinite  alternate;
 }
 
-#spinner {
+.spinner {
     border: 1.3px solid #f3f3f3;
     border-radius: 50%;
     border-top: 1.3px solid #00B45A;
@@ -401,7 +402,6 @@ input[type="radio"]:checked + label {
     width: 36px;
     height: 36px;
     animation: spin 1s linear infinite;
-    display: none;
     margin-bottom: 30px;
 }
 

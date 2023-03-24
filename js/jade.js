@@ -110,14 +110,14 @@ function updatingVersion() {
     subtitle.style.display = 'none';
 }
 
-function errorScreen() {
+function errorScreen(msg) {
     jadeDeviceImg.style.display = 'none';
     usbCableImg.style.display = 'none';
     jadeDeviceUnlock.style.display = 'none';
     jadeDeviceUpdating.style.display = 'none';
     jadeDeviceConfirm.style.display = 'none';
     jadeDeviceError.style.display = 'block';
-    title.innerText = 'Action declined on Jade';
+    title.innerText = msg ? msg: 'Action declined on Jade';
     retryBtn.style.display = 'flex';
     subtitle.style.display = 'none';
     spinner.style.display = 'none';
@@ -125,10 +125,8 @@ function errorScreen() {
     main.style.height = 'calc(100vh - 250px)';
     jadeImage.style.bottom = 'auto';
     logsBtn.style.display = 'none';
-    document.querySelector('footer').style.maxHeight = '250px';
     document.querySelectorAll('.wallets')
         .forEach(i => i.classList.add('hidden'));
-    blockTag.style.display = 'none';
     blcksServBtns.forEach(i => {
         i.style.backgroundColor = 'none';
         i.style.borderColor = '#fff';
@@ -147,10 +145,8 @@ function finalScreen(checked) {
     jadeDeviceUpdating.style.display = 'none';
     // arrow.style.display = 'none';
     logsBtn.style.display = 'block'
-    document.querySelector('footer').style.maxHeight = 'none';
     document.querySelectorAll('.wallets')
         .forEach(i => i.classList.remove('hidden'));
-    blockTag.style.display = 'block';
     blcksServBtns.forEach(i => {
         i.style.backgroundColor = '#00B45A';
         i.style.borderColor = '#00B45A';
@@ -165,8 +161,6 @@ jade.start = function(onsuccess, onfailure) {
         serial_worker.onmessage = function(event) {
             if (event.data == 'READY') {
                 console.log('READY-11');
-                addPinCode();
-
                 onsuccess();
             } else {
                 onfailure(event.data);
@@ -178,11 +172,12 @@ jade.start = function(onsuccess, onfailure) {
 jade.unlock = function(fetchUrl, onsuccess, network) {
     serial_worker.onmessage = function(event) {
         const msg = event.data[0]['result'];
+        console.log(msg)
         if (msg === true) {
-            afterPinCode();
+            // afterPinCode();
 
             setTimeout(() => {
-                clearAfterPin();
+                // clearAfterPin();
                 onsuccess();
             }, 2000);
             return;
@@ -214,27 +209,6 @@ jade.unlock = function(fetchUrl, onsuccess, network) {
     //, 'epoch': epoch}
     const encoded = cbor.encode(
         {'id': '0', 'method': 'auth_user', 'params': {'network': network}});
-    serial_worker.postMessage(encoded);
-};
-
-jade.get_xpub = function(onsuccess, network) {
-    serial_worker.onmessage = function(event) {
-        const decoded = event.data;
-        if ('result' in decoded[0]) {
-            const version_info = decoded[0]['result'];
-            console.log(version_info);
-            onsuccess(version_info);
-        }
-        // else {
-        //     // FIXME: do something on failure?
-        //     errorScreen();
-        // }
-    };
-    const encoded = cbor.encode({
-        'id': '0',
-        'method': 'get_xpub',
-        'params': {'network': network, 'path': [0]}
-    });
     serial_worker.postMessage(encoded);
 };
 
@@ -309,6 +283,28 @@ jade.ota = function(
             'cmphash': hash,
             'patchsize': patchsize
         }
+    });
+    serial_worker.postMessage(encoded);
+};
+
+// Get xpub call
+jade.get_xpub = function(onsuccess, network, path) {
+    serial_worker.onmessage = function(event) {
+        const decoded = event.data;
+        if ('result' in decoded[0]) {
+            const version_info = decoded[0]['result'];
+            console.log(version_info);
+            onsuccess(version_info);
+        }
+        else {
+            let msg = decoded[0]['error']['message']
+            errorScreen(msg);
+        }
+    };
+    const encoded = cbor.encode({
+        'id': '0',
+        'method': 'get_xpub',
+        'params': {'network': network, 'path': path}
     });
     serial_worker.postMessage(encoded);
 };

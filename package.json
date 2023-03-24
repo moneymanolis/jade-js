@@ -1,0 +1,25 @@
+{
+  "name": "webjadeupgrader",
+  "version": "1.0.0",
+  "description": "## Open fwupgrade.html in Chrome/Chromium (Android currently not supported)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Blockstream/webjadeupgrader.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Blockstream/webjadeupgrader/issues"
+  },
+  "homepage": "https://github.com/Blockstream/webjadeupgrader#readme",
+  "dependencies": {
+    "async-mutex": "^0.4.0",
+    "bs58": "^5.0.0",
+    "crypto-js": "^4.1.1"
+  }
+}

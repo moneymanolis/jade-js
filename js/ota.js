@@ -145,8 +145,8 @@ window.addEventListener('DOMContentLoaded', async () => {
     if ('serial' in navigator) {
         const notSupported = document.getElementById('notSupported');
         notSupported.classList.add('hidden');
-        const showfirmwares = document.getElementById('showfirmwares');
-        showfirmwares.classList.remove('hidden');
+        // const showfirmwares = document.getElementById('showfirmwares');
+        // showfirmwares.classList.remove('hidden');
     }
 });
 
