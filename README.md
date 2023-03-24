@@ -31,6 +31,9 @@ So you need
 - A CBOR encoder/decoder
 - JS code to talk to the serial worker (done in `jade.js`).
 
+# Development
+Run `python -m http.server 9999`
+
 # Impressions
 
 https://user-images.githubusercontent.com/70536101/227565707-b15b60b6-8bc1-4611-8ae6-ee8f4f3d4817.mov
