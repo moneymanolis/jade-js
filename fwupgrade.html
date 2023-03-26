@@ -34,14 +34,18 @@
           <img id="usb-cable-img" src="images/usb-cable.svg" alt="icon" />
         </div>
         <h1 class="title" id="title">
-          POC: Get public key info from Jade
+          Get public key info from Jade
         </h1>
         <div id="spinner" class="spinner hidden"></div>
         <a class="hidden service-btn" id="logs-btn" href="https://github.com/Blockstream/Jade/blob/master/CHANGELOG.md">View Changelog</a>
         <button class="hidden g-btn green-btn" id="changefirmware" type="button" onclick="confirmChangingVersion()">Change Firmware Version</button>
         <button class="hidden g-btn green-btn" id="showfirmwares" type="button" onclick="show_firmwares()">Update your Jade</button>
+        <button class="g-btn green-btn" id="check-status" type="button" onclick="checkStatus()">Check status of Jade</button>
+        <button class="g-btn green-btn" id="unlock-device" type="button" onclick="unlockDevice()">Unlock Jade</button>
+        <div id="status-device" class="hidden">
+          <p class="subtitle" id="subtitle" style="margin-top: 5px">Jade is unlocked</p>
+        </div>
         <button class="g-btn green-btn" id="get-xpub-btn" type="button" onclick="showXpub([2147483696,2147483648,2147483648,2147483650])">Show xpub</button>
-
         <div id="display-xpub" class="hidden">
           <p class="subtitle" id="subtitle" style="margin-top: 5px">This is the xpub</p>
           <span id="xpub"></span>
