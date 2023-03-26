@@ -33,6 +33,7 @@ So you need
 
 # Development
 Run `python -m http.server 9999`
+You need to go to https://cors-anywhere.herokuapp.com/corsdemo and click on "Request temporary access to the demo server" to run any functions that involve unlocking the PIN.
 
 # Impressions
 
