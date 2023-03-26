@@ -25,16 +25,29 @@ async function worker() {
         const ports = await navigator.serial.getPorts();
         if (ports.length == 0) {
             console.log('Couldn\'t find a viable port');
-            alert('Failure finding a serial port');
+            postMessage('FAILURE');
             return;
         }
         const port = ports[0];
         await port.open({baudRate: 115200});
         const reader = port.readable.getReader();
         const writer = port.writable.getWriter();
+        let timeout
 
         selfworker.onmessage = function(msg) {
+            clearTimeout(timeout);
+            console.log(cbor.decodeAllSync(msg.data))
+            const decoded = cbor.decodeAllSync(msg.data)
+            const method = decoded[0].method
             writer.write(msg.data);
+            if (method === 'ping') {
+                // Set up a timeout to detect if the device is not responding
+                console.log('setting a timeout')
+                timeout = setTimeout(() => {
+                    console.log('Device is not responding');
+                    postMessage('DEVICE_OFFLINE');
+                }, 5000);
+            }
         };
 
         let data = new Uint8Array();

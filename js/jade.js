@@ -156,17 +156,24 @@ function finalScreen(checked) {
 // End UI Elements
 
 jade.start = function(onsuccess, onfailure) {
-    if (typeof (serial_worker) == 'undefined') {
-        serial_worker = new Worker('js/serial_worker.js');
-        serial_worker.onmessage = function(event) {
-            if (event.data == 'READY') {
-                console.log('READY-11');
-                onsuccess();
-            } else {
-                onfailure(event.data);
-            }
-        };
+    if (typeof(serial_worker) !== 'undefined' && serial_worker !== null && typeof(serial_worker.onmessage) !== 'undefined') {
+        console.log('Worker already exists and can receive messages.')
+        // Check whether device is still on
+        checkDeviceIsOn(onsuccess, onfailure)
+        return;
     }
+    serial_worker = new Worker('js/serial_worker.js');
+    serial_worker.onmessage = function(event) {
+        console.log('This is the data from the worker:' + event.data);
+        if (event.data == 'READY') {
+            console.log('Worker found a port and is ready.');
+            // Check whether device is also on
+            checkDeviceIsOn(onsuccess, onfailure)
+        } else if (event.data == 'FAILURE') {
+            console.log('Failure to find a serial port.')
+            onfailure()
+        }
+    };
 };
 
 jade.unlock = function(fetchUrl, onsuccess, network) {
@@ -175,14 +182,13 @@ jade.unlock = function(fetchUrl, onsuccess, network) {
         console.log(msg)
         if (msg === true) {
             // afterPinCode();
-
             setTimeout(() => {
                 // clearAfterPin();
                 onsuccess();
             }, 2000);
             return;
         } else if (msg === false) {
-            errorScreen();
+            errorScreen(msg);
         } else {
             // FIXME: do something on failure?
             // pretty weird that "msg" could be undefine
@@ -219,10 +225,9 @@ jade.get_version_info = function(onsuccess) {
             version_info = decoded[0]['result'];
             onsuccess(version_info);
         }
-        // else {
-        //     // FIXME: do something on failure?
-        //     errorScreen();
-        // }
+        else {
+            errorScreen();
+        }
     };
     const encoded = cbor.encode({'id': '0', 'method': 'get_version_info'});
     serial_worker.postMessage(encoded);
@@ -292,9 +297,8 @@ jade.get_xpub = function(onsuccess, network, path) {
     serial_worker.onmessage = function(event) {
         const decoded = event.data;
         if ('result' in decoded[0]) {
-            const version_info = decoded[0]['result'];
-            console.log(version_info);
-            onsuccess(version_info);
+            const xpub = decoded[0]['result'];
+            onsuccess(xpub);
         }
         else {
             let msg = decoded[0]['error']['message']
@@ -308,3 +312,19 @@ jade.get_xpub = function(onsuccess, network, path) {
     });
     serial_worker.postMessage(encoded);
 };
+
+function checkDeviceIsOn(onsuccess, onfailure) {
+    const encoded = cbor.encode({'id': '0', 'method': 'ping'});
+    console.log('Pinging ...')
+    serial_worker.postMessage(encoded);
+    serial_worker.onmessage = (e) => {
+        if (e.data === 'DEVICE_OFFLINE') {
+            console.log('Jade seems to be powered down.');
+            errorScreen('Your Jade seems to be powered down.')
+            onfailure();
+        } else {
+            console.log('Ping successful!');
+            onsuccess();
+        }
+    };
+}
