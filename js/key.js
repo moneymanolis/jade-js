@@ -54,6 +54,11 @@ function failureToFindSerialPort() {
     errorScreen(msg)
 }
 
+function psbtSignedSuccessfully(psbt) {
+    console.log(psbt)
+    console.log('Signing was succesful')
+}
+
 function checkStatus() {
     jade.start(() => {
         jade.get_version_info((version_info) => {
@@ -85,5 +90,25 @@ function unlockDevice() {
                 console.log('Device is used in PIN-less mode. Probably scanned a Seed QR.')
             }
         })
+    }, failureToFindSerialPort)
+}
+
+// Convert PSBT in base64 to byte array
+const psbtBase64 = 'cHNidP8BAHECAAAAAQ37amDsUTaHpAuczGSTBvj6La+paXr+TMSiHZfxZiszAAAAAAD9////AlDDAAAAAAAAFgAUzAwtZc+7esvXIA81p6oMxS7Cc0ZRjAgAAAAAABYAFEThJd9+5M46NGXpux6eWTDwi1bnugoAAAABAIYCAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////wUCpAcBAf////8CL1AJAAAAAAAWABR72MmJodIZyxlgOIc3+O3qxiZcUgAAAAAAAAAAJmokqiGp7eL2HD9x0d79P6mZ36NpU3VcaQaJeZlitIvr2DaXToz5AAAAAAEBHy9QCQAAAAAAFgAUe9jJiaHSGcsZYDiHN/jt6sYmXFIiBgOBlaRA4leGn7QIjZzb9TCD4N6pFbhla/9Tqm3aUBGEnBiMJKUQVAAAgAEAAIAAAACAAAAAABsAAAAAACICAui8o6vE2zfBZiQpNEF7CAxQccYld4eSdfYOQlJEQEwZGIwkpRBUAACAAQAAgAAAAIABAAAAFQAAAAA='
+const psbtBytes = new Uint8Array(atob(psbtBase64).split('').map(function(c) {
+    return c.charCodeAt(0);
+  }));
+
+// Convert base64-encoded PSBT to byte array
+// const psbtBytes = new TextEncoder().encode(atob(psbtBase64));
+
+  // Assuming psbt_base64 is the base64 encoded PSBT string
+
+  
+function signPsbt() {
+    console.log(atob(psbtBase64))
+    console.log(psbtBytes)
+    jade.start(() => {
+        jade.sign_psbt(psbtBytes, psbtSignedSuccessfully)
     }, failureToFindSerialPort)
 }

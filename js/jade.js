@@ -328,3 +328,25 @@ function checkDeviceIsOn(onsuccess, onfailure) {
         }
     };
 }
+
+// Sign PSBT
+jade.sign_psbt = function(psbt_bytes, onsuccess) {
+    console.log(psbt_bytes)
+    serial_worker.onmessage = function(event) {
+        const decoded = event.data;
+        if ('result' in decoded[0]) {
+            const psbt = decoded[0]['result'];
+            onsuccess(psbt);
+        }
+        else {
+            let msg = decoded[0]['error']['message']
+            errorScreen(msg);
+        }
+    };
+    const encoded = cbor.encode({
+        'id': '6979',
+        'method': 'sign_psbt',
+        'params': {'psbt': psbt_bytes}
+    });
+    serial_worker.postMessage(encoded);
+};
