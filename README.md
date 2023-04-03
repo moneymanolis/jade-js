@@ -6,7 +6,6 @@ and uses the [Jade API](https://github.com/Blockstream/Jade/blob/master/docs/ind
 The purpose of this repo is to get a better understanding of how to talk to the Jade device from client side code: mainly to retrieve public key info and to explore on how to sign PSBTs. 
 
 # Architecture
-(At least my understanding of it).
 The web worker acts as an intermediary between the client and the hardware device.
 ```
 +-----------------+     +-----------------+     +-------------------+
