@@ -54,7 +54,11 @@ function failureToFindSerialPort() {
     errorScreen(msg)
 }
 
-function checkStatus() {
+async function checkStatus() {
+    const ports = await navigator.serial.getPorts();
+    if (ports.length == 0) {
+        await navigator.serial.requestPort({filters: serial_filters});
+    }
     jade.start(() => {
         jade.get_version_info((version_info) => {
             console.log('Version information: ', version_info);
@@ -63,7 +67,11 @@ function checkStatus() {
     )
 }
 
-function unlockDevice() {
+async function unlockDevice() {
+    const ports = await navigator.serial.getPorts();
+    if (ports.length == 0) {
+        await navigator.serial.requestPort({filters: serial_filters});
+    }
     jade.start(() => {
         jade.get_version_info((version_info) => {
             console.log('Version information: ', version_info);
